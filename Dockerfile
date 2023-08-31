@@ -7,6 +7,9 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client cmake
 RUN mkdir /opt/app
 WORKDIR /opt/app
 
+COPY ./vendor/comee_core-0.1.9.gem .
+RUN gem install comee_core-0.1.9.gem
+
 COPY ./Gemfile ./Gemfile.lock ./
 
 RUN bundle install --jobs 20 --retry 5
