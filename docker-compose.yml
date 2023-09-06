@@ -3,21 +3,7 @@ version: '3'
 services:
   db:
     image: postgres:15.3-alpine
-    volumes:
-      - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: pgpassword
-  
-  app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    volumes:
-      - .:/app
+      POSTGRES_PASSWORD: gucci
     ports:
-      - "3000:3000"
-    depends_on:
-      - db
-
-volumes:
-  db_data: {}
+      - 5432:5432

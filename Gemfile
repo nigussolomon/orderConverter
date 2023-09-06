@@ -11,14 +11,16 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem "ransack"
 gem "comee_core", "~>0.1.9"
+gem "httparty"
+gem "savon"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
-  gem 'rubocop', require: false
-  gem 'rubocop-rspec', require: false
+  gem "rubocop", require: false
+  gem "rubocop-rspec", require: false
 end
 
 group :development do
@@ -26,7 +28,6 @@ end
 
 group :test do
   gem "simplecov"
-  gem 'database_cleaner-active_record'
-  gem 'shoulda-matchers'
+  gem "database_cleaner-active_record"
+  gem "shoulda-matchers"
 end
-
