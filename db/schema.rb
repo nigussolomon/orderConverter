@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_05_222458) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_035155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,13 +53,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_222458) do
     t.datetime "updated_at", null: false
     t.index ["client_order_id"], name: "co_on_coi_indx"
     t.index ["product_id"], name: "po_on_coi_indx"
-  end
-
-  create_table "comee_core_client_order_links", force: :cascade do |t|
-    t.string "link", null: false
-    t.boolean "processed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "comee_core_client_orders", force: :cascade do |t|
@@ -123,6 +116,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_222458) do
     t.index ["recipient_type", "recipient_id"], name: "index_comee_core_notifications_on_recipient"
   end
 
+  create_table "comee_core_order_sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "client_on_ccos_indx"
+  end
+
   create_table "comee_core_product_types", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
@@ -145,6 +146,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_222458) do
     t.index ["code"], name: "index_comee_core_products_on_code", unique: true
     t.index ["product_type_id"], name: "ccpt_on_ccp_indx"
     t.index ["unit_id"], name: "unit_on_ccp_indx"
+  end
+
+  create_table "comee_core_source_mappings", force: :cascade do |t|
+    t.string "source", null: false
+    t.string "destination", null: false
+    t.bigint "order_source_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_source_id"], name: "order_source_on_csm_indx"
   end
 
   create_table "comee_core_supplier_prices", force: :cascade do |t|
@@ -192,87 +202,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_222458) do
     t.index ["email"], name: "index_comee_core_users_on_email", unique: true
   end
 
-  create_table "customer_price_lists", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_customer_price_lists_on_item_id"
-  end
-
-  create_table "items", force: :cascade do |t|
-    t.string "item_number", null: false
-    t.string "item_description", null: false
-    t.integer "quantity", null: false
-    t.string "unit_of_measure", null: false
-    t.decimal "unit_price", null: false
-    t.decimal "total_price", null: false
-    t.date "supplier_purchase_price_valid_from", null: false
-    t.date "supplier_purchase_price_valid_to", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "pricing_id"
-    t.index ["pricing_id"], name: "index_items_on_pricing_id"
-  end
-
   create_table "logs", force: :cascade do |t|
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "order_items", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.bigint "order_id", null: false
-    t.integer "supplier_quantity", null: false
-    t.decimal "supplier_unit_price", null: false
-    t.string "status", null: false
-    t.text "remark", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_order_items_on_item_id"
-    t.index ["order_id"], name: "index_order_items_on_order_id"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.string "order_number", null: false
-    t.date "delivery_date", null: false
-    t.text "terms", null: false
-    t.string "delivery_address", null: false
-    t.string "invoice_address", null: false
-    t.string "status", null: false
-    t.text "remark", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "pricings", force: :cascade do |t|
-    t.decimal "selling_old_price", null: false
-    t.decimal "selling_new_price", null: false
-    t.date "selling_old_price_valid_from", null: false
-    t.date "selling_new_price_valid_to", null: false
-    t.decimal "purchase_old_price", null: false
-    t.decimal "purchase_new_price", null: false
-    t.date "purchase_old_price_valid_from", null: false
-    t.date "purchase_new_price_valid_to", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "supplier_customer_references", force: :cascade do |t|
-    t.string "supplier_article_number", null: false
-    t.string "customer_item_number", null: false
-    t.float "price", null: false
-    t.bigint "supplier_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["supplier_id"], name: "index_supplier_customer_references_on_supplier_id"
-  end
-
-  create_table "supplier_price_lists", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_supplier_price_lists_on_item_id"
   end
 
   add_foreign_key "comee_core_back_order_items", "comee_core_back_orders", column: "back_order_id"
@@ -284,15 +217,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_222458) do
   add_foreign_key "comee_core_client_prices", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_client_prices", "comee_core_products", column: "product_id"
   add_foreign_key "comee_core_clients", "comee_core_users", column: "user_id"
+  add_foreign_key "comee_core_order_sources", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_products", "comee_core_product_types", column: "product_type_id"
   add_foreign_key "comee_core_products", "comee_core_units", column: "unit_id"
+  add_foreign_key "comee_core_source_mappings", "comee_core_order_sources", column: "order_source_id"
   add_foreign_key "comee_core_supplier_prices", "comee_core_products", column: "product_id"
   add_foreign_key "comee_core_supplier_prices", "comee_core_suppliers", column: "supplier_id"
   add_foreign_key "comee_core_suppliers", "comee_core_users", column: "user_id"
-  add_foreign_key "customer_price_lists", "items"
-  add_foreign_key "items", "pricings"
-  add_foreign_key "order_items", "items"
-  add_foreign_key "order_items", "orders"
-  add_foreign_key "supplier_customer_references", "comee_core_suppliers", column: "supplier_id"
-  add_foreign_key "supplier_price_lists", "items"
 end
