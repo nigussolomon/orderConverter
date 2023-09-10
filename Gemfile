@@ -12,7 +12,7 @@ gem "rack-cors"
 gem "ransack"
 gem "comee_core", "~>0.1.9"
 gem "httparty"
-gem "savon"
+gem "active_model_serializers"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
