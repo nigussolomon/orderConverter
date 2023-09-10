@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get "/setups/sos/:poNumber/:", to: "setups#create_so"
   get "/setups/pos/:poNumber", to: "setups#create_po"
   resources :order_sources
+  resources :source_mappings
 end
