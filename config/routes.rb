@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   resources :order_sources
   resources :source_mappings
   resources :client_orders
+  resources :client_order_items
 end
