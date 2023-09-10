@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "ClientOrders", type: :request do
-  include_examples("request_shared_spec", "client_orders", 12)
+  include_examples("request_shared_spec", "client_orders", 10)
 
   let(:valid_attributes) {
     {

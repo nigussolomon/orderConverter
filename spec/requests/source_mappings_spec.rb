@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "SourceMappings", type: :request do
-  include_examples("request_shared_spec", "source_mappings", 6)
+  include_examples("request_shared_spec", "source_mappings", 4)
 
   let(:valid_attributes) {
     {
