@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_10_035155) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -116,6 +116,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_035155) do
     t.index ["recipient_type", "recipient_id"], name: "index_comee_core_notifications_on_recipient"
   end
 
+  create_table "comee_core_order_links", force: :cascade do |t|
+    t.string "link", null: false
+    t.bigint "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "client_on_ccol_indx"
+  end
+
   create_table "comee_core_order_sources", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "client_id", null: false
@@ -217,6 +225,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_035155) do
   add_foreign_key "comee_core_client_prices", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_client_prices", "comee_core_products", column: "product_id"
   add_foreign_key "comee_core_clients", "comee_core_users", column: "user_id"
+  add_foreign_key "comee_core_order_links", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_order_sources", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_products", "comee_core_product_types", column: "product_type_id"
   add_foreign_key "comee_core_products", "comee_core_units", column: "unit_id"
