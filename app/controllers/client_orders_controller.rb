@@ -1,7 +1,6 @@
 class ClientOrdersController < ApplicationController
   include Common
 
-  # i want an endpoint that will allow me to be a ble to recieve a list of client_order_items and try to create a product from their details and if the product already exists in my system i want to refer to it and not create it
   def create
     if model_params["items"].present?
       order_items = model_params["items"]["products"]
@@ -21,9 +20,38 @@ class ClientOrdersController < ApplicationController
     end
   end
 
+  def update
+    client_order = Comee::Core::ClientOrder.find(params[:id])
+    if model_params["items"].present?
+      order_items = model_params["items"]["products"]
+      params[:payload].delete("items")
+      if client_order.update(model_params)
+        order_items.each do |product|
+          product_id = Comee::Core::Product.find_by(code: product["code"]).id
+          puts product
+          Comee::Core::ClientOrderItem.find_by(product_id: product_id).update!(quantity: product["quantity"], price: product["price"])
+        end
+        render json: { success: true, data: serialize(client_order) }, status: :ok
+      else
+        render json: { success: false, error: client_order.errors.full_messages[0] }, status: :unprocessable_entity
+      end
+    else
+      if client_order.update(model_params)
+        render json: { success: true, data: serialize(client_order) }, status: :ok
+      else
+        render json: { success: false, error: client_order.errors.full_messages[0] }, status: :unprocessable_entity
+      end
+    end
+  end
+
   def order_details
     ccoi = Comee::Core::ClientOrderItem.where(client_order_id: params["id"])
     render json: { success: false, data: serialize(ccoi) }, status: :ok
+  end
+
+  def filter
+    cos = Comee::Core::ClientOrder.where(client_id: params[:id])
+    render json: { succes: true, data: serialize(cos) }, status: :ok
   end
 
   private
