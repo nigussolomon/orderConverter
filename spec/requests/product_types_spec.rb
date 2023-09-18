@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "ProductTypes", type: :request do
-  include_examples("request_shared_spec", "product_types", 4)
+  include_examples("request_shared_spec", "product_types", 5)
 
   let(:valid_attributes) {
     {
@@ -21,7 +21,7 @@ RSpec.describe "ProductTypes", type: :request do
 
   let(:new_attributes) {
     {
-      name: Faker::Lorem.word
+      name: Faker::Lorem.word,
     }
   }
 end

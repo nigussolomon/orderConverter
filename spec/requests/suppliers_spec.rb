@@ -1,25 +1,25 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Suppliers", type: :request do
-  include_examples("request_shared_spec", "suppliers", 6)
+  include_examples("request_shared_spec", "suppliers", 5)
 
   let(:valid_attributes) {
     {
       code: Faker::Code.npi,
       name: Faker::Lorem.word,
       address: Faker::Address.full_address,
-      locale: 'en',
-      user_id: create(:user).id
+      locale: "en",
+      user_id: create(:user).id,
     }
   }
 
   let(:invalid_attributes) {
     {
-      code: Faker::Code.npi,
+      code: nil,
       name: Faker::Lorem.word,
       address: Faker::Address.full_address,
-      locale: 'en',
-      user_id: nil
+      locale: "en",
+      user_id: nil,
     }
   }
 

@@ -76,11 +76,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
     t.date "valid_to", null: false
     t.float "old_price"
     t.float "new_price", null: false
+    t.float "future_price"
+    t.date "future_validity"
     t.bigint "product_id", null: false
     t.bigint "client_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["client_id"], name: "client_on_cccp_indx"
+    t.index ["product_id", "client_id"], name: "index_comee_core_client_prices_on_product_id_and_client_id", unique: true
     t.index ["product_id"], name: "product_on_cccp_indx"
   end
 
@@ -90,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
     t.string "name", null: false
     t.string "address", null: false
     t.string "locale", default: "en", null: false
+    t.string "discount", default: "0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_comee_core_clients_on_code", unique: true
@@ -102,6 +106,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_comee_core_currencies_on_code", unique: true
+  end
+
+  create_table "comee_core_master_prices", force: :cascade do |t|
+    t.date "pp_valid_from", null: false
+    t.date "pp_valid_to", null: false
+    t.date "sp_valid_from", null: false
+    t.date "sp_valid_to", null: false
+    t.float "old_pprice"
+    t.float "new_pprice", null: false
+    t.float "old_sprice"
+    t.float "new_sprice", null: false
+    t.boolean "primary", null: false
+    t.bigint "product_id", null: false
+    t.bigint "supplier_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "supplier_id"], name: "index_comee_core_master_prices_on_product_id_and_supplier_id", unique: true
+    t.index ["product_id"], name: "product_on_ccsp_indx"
+    t.index ["supplier_id"], name: "supplier_on_ccsp_indx"
   end
 
   create_table "comee_core_notifications", force: :cascade do |t|
@@ -130,6 +153,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["client_id"], name: "client_on_ccos_indx"
+  end
+
+  create_table "comee_core_product_lookups", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "itemable_type", null: false
+    t.bigint "itemable_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["itemable_id", "itemable_type", "product_id"], name: "itemable_product_indx_uniq", unique: true
+    t.index ["itemable_type", "itemable_id"], name: "index_comee_core_product_lookups_on_itemable"
+    t.index ["product_id"], name: "product_on_ccep_indx"
   end
 
   create_table "comee_core_product_types", force: :cascade do |t|
@@ -163,19 +198,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_source_id"], name: "order_source_on_csm_indx"
-  end
-
-  create_table "comee_core_supplier_prices", force: :cascade do |t|
-    t.date "valid_from", null: false
-    t.date "valid_to", null: false
-    t.float "old_price"
-    t.float "new_price", null: false
-    t.bigint "product_id", null: false
-    t.bigint "supplier_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "product_on_ccsp_indx"
-    t.index ["supplier_id"], name: "supplier_on_ccsp_indx"
   end
 
   create_table "comee_core_suppliers", force: :cascade do |t|
@@ -225,12 +247,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_094255) do
   add_foreign_key "comee_core_client_prices", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_client_prices", "comee_core_products", column: "product_id"
   add_foreign_key "comee_core_clients", "comee_core_users", column: "user_id"
+  add_foreign_key "comee_core_master_prices", "comee_core_products", column: "product_id"
+  add_foreign_key "comee_core_master_prices", "comee_core_suppliers", column: "supplier_id"
   add_foreign_key "comee_core_order_links", "comee_core_clients", column: "client_id"
   add_foreign_key "comee_core_order_sources", "comee_core_clients", column: "client_id"
+  add_foreign_key "comee_core_product_lookups", "comee_core_products", column: "product_id"
   add_foreign_key "comee_core_products", "comee_core_product_types", column: "product_type_id"
   add_foreign_key "comee_core_products", "comee_core_units", column: "unit_id"
   add_foreign_key "comee_core_source_mappings", "comee_core_order_sources", column: "order_source_id"
-  add_foreign_key "comee_core_supplier_prices", "comee_core_products", column: "product_id"
-  add_foreign_key "comee_core_supplier_prices", "comee_core_suppliers", column: "supplier_id"
   add_foreign_key "comee_core_suppliers", "comee_core_users", column: "user_id"
 end

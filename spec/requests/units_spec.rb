@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Units", type: :request do
-  include_examples("request_shared_spec", "units", 3)
+  include_examples("request_shared_spec", "units", 4)
 
   let(:valid_attributes) {
     {
@@ -24,5 +24,4 @@ RSpec.describe "Units", type: :request do
       code: Faker::Code.npi,
     }
   }
-
 end

@@ -55,6 +55,22 @@ RSpec.describe "ClientOrders", type: :request do
     }
   }
 
+  let(:update_attr) {
+    {
+      delivery_date: Date.current.advance(month: 2),
+      items: { products: [
+        { code: Faker::Alphanumeric.alpha(number: 6),
+          name: Faker::Name.name,
+          description: Faker::Lorem.sentence,
+          product_type_id: create(:product_type).id,
+          unit_id: create(:unit).id,
+          metadata: {},
+          quantity: 100,
+          price: 1200 },
+      ] },
+    }
+  }
+
   describe "POST #create" do
     context "with valid params" do
       it "creates a new client order and creates client order items along side" do
@@ -72,18 +88,45 @@ RSpec.describe "ClientOrders", type: :request do
     end
   end
 
-  describe "GET #order_details" do
-    it "creates a new client order and creates client order items along side" do
-      co_az = create(:client_order)
-      co_ap = create(:client_order)
-      create(:client_order_item, client_order_id: co_az.id)
-      create(:client_order_item, client_order_id: co_az.id)
-      create(:client_order_item, client_order_id: co_ap.id)
+  it "filters the orders for a specific client" do
+    co_az = create(:client_order)
+    co_ap = create(:client_order)
+    create(:client_order_item, client_order_id: co_az.id)
+    create(:client_order_item, client_order_id: co_az.id)
+    create(:client_order_item, client_order_id: co_ap.id)
 
-      get "/order_details/#{co_az.id}"
-      result = JSON(response.body)
-      expect(response).to be_successful
-      expect(result.count).to eq 2
-    end
+    get "/order_details/#{co_az.id}"
+    result = JSON(response.body)
+    expect(response).to be_successful
+    expect(result.count).to eq 2
+  end
+
+  it "filters client orders given a client id" do
+    cl_az = create(:client)
+    cl_ap = create(:client)
+    create(:client_order, client_id: cl_az.id)
+    create(:client_order, client_id: cl_az.id)
+    create(:client_order, client_id: cl_ap.id)
+
+    get "/client_orders/filter/#{cl_az.id}"
+    expect(response).to be_successful
+    expect(JSON.parse(response.body)["data"].count).to eq 2
+  end
+
+  it "updates client order items" do
+    co = create(:client_order)
+    prod1 = create(:product, code: update_attr[:items][:products][0][:code])
+    coi1 = create(:client_order_item, client_order_id: co.id, product_id: prod1.id)
+
+    put(
+      send("client_order_url", id: co.id),
+      headers: headers,
+      params: { payload: update_attr },
+      as: :json,
+    )
+
+    expect(response).to be_successful
+    expect(Comee::Core::ClientOrder.find(co.id).delivery_date).to eq update_attr[:delivery_date]
+    expect(Comee::Core::ClientOrderItem.find(coi1.id).quantity).to eq update_attr[:items][:products][0][:quantity]
   end
 end

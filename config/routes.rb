@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/setups/pos/:poNumber", to: "setups#create_po"
   get "/setups/po", to: "setups#get_po"
   get "/order_details/:id", to: "client_orders#order_details"
+  get "/client_orders/filter/:id", to: "client_orders#filter"
   get "/order_links/filter/:id", to: "order_links#filter"
   resources :order_sources
   resources :source_mappings
@@ -16,4 +17,8 @@ Rails.application.routes.draw do
   resources :client_order_items
   resources :clients
   resources :order_links
+  resources :currencies
+  resources :units
+  resources :product_types
+  resources :suppliers
 end
