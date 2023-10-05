@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'request_shared_spec' do |controller, field_count, exclude = []|
+RSpec.shared_examples "request_shared_spec" do |controller, field_count, exclude = []|
   include Comee::Core::Engine.routes.url_helpers
 
   let(:factory) { controller.classify.underscore.to_sym }
@@ -11,43 +11,43 @@ RSpec.shared_examples 'request_shared_spec' do |controller, field_count, exclude
       id: user.id, name: user.name, email: user.email, user_type: user.user_type
     )
   end
-  let(:headers) { { Authorization: "Bearer #{token}" } }
+  let(:headers) { {Authorization: "Bearer #{token}"} }
 
   unless exclude.include?(:index)
-    describe 'GET /index' do
-      it 'returns success response' do
+    describe "GET /index" do
+      it "returns success response" do
         count = clazz.count
         3.times { create(factory) }
         get(send("#{controller}_url"), headers:, as: :json)
         expect(response).to be_successful
         result = JSON(response.body)
 
-        expect(result['success']).to be_truthy
-        expect(result['data'].count - count).to eq 3
+        expect(result["success"]).to be_truthy
+        expect(result["data"].count - count).to eq 3
       end
     end
   end
 
   unless exclude.include?(:show)
-    describe 'GET /show' do
-      it 'returns a success response' do
+    describe "GET /show" do
+      it "returns a success response" do
         obj = create(factory)
         get(send("#{controller.singularize}_url", obj), headers:, as: :json)
         expect(response).to be_successful
         result = JSON(response.body)
 
-        expect(result['success']).to be_truthy
-        expect(result['data'].count).to eq field_count
-        expect(result['data']['id']).to eq obj.id
+        expect(result["success"]).to be_truthy
+        expect(result["data"].count).to eq field_count
+        expect(result["data"]["id"]).to eq obj.id
       end
     end
   end
 
   unless exclude.include?(:create)
-    describe 'POST /create' do
-      context 'with valid params' do
-        it 'creates a new object' do
-          params = { payload: valid_attributes }
+    describe "POST /create" do
+      context "with valid params" do
+        it "creates a new object" do
+          params = {payload: valid_attributes}
           expect do
             post(
               send("#{controller}_url"),
@@ -57,16 +57,16 @@ RSpec.shared_examples 'request_shared_spec' do |controller, field_count, exclude
             )
           end.to change(clazz, :count).by(1)
           expect(response).to have_http_status(:created)
-          expect(response.content_type).to eq('application/json; charset=utf-8')
+          expect(response.content_type).to eq("application/json; charset=utf-8")
 
           result = JSON(response.body)
-          expect(result['success']).to be_truthy
+          expect(result["success"]).to be_truthy
         end
       end
 
-      context 'with invalid params' do
-        it 'renders a JSON response with errors for the new object' do
-          params = { payload: invalid_attributes }
+      context "with invalid params" do
+        it "renders a JSON response with errors for the new object" do
+          params = {payload: invalid_attributes}
           post(
             send("#{controller}_url"),
             params:,
@@ -74,22 +74,22 @@ RSpec.shared_examples 'request_shared_spec' do |controller, field_count, exclude
             as: :json
           )
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.content_type).to eq('application/json; charset=utf-8')
+          expect(response.content_type).to eq("application/json; charset=utf-8")
 
           result = JSON(response.body)
-          expect(result['success']).to be_falsey
-          expect(result['error']).not_to be_blank
+          expect(result["success"]).to be_falsey
+          expect(result["error"]).not_to be_blank
         end
       end
     end
   end
 
   unless exclude.include?(:update)
-    describe 'PUT /update' do
-      context 'with valid params' do
-        it 'updates the requested object' do
+    describe "PUT /update" do
+      context "with valid params" do
+        it "updates the requested object" do
           obj = create(factory)
-          params = { id: obj.to_param, payload: new_attributes }
+          params = {id: obj.to_param, payload: new_attributes}
           put(
             send("#{controller.singularize}_url", obj),
             headers:,
@@ -99,18 +99,18 @@ RSpec.shared_examples 'request_shared_spec' do |controller, field_count, exclude
 
           expect(response).to have_http_status(:ok)
           expect(obj.send(new_attributes.keys[0])).to eq new_attributes.values[0]
-          expect(response.content_type).to eq('application/json; charset=utf-8')
+          expect(response.content_type).to eq("application/json; charset=utf-8")
 
           result = JSON(response.body)
-          expect(result['success']).to be_truthy
-          expect(result['data']['id']).to eq obj.id
+          expect(result["success"]).to be_truthy
+          expect(result["data"]["id"]).to eq obj.id
         end
       end
 
-      context 'with invalid params' do
-        it 'renders a JSON response with errors for the object' do
+      context "with invalid params" do
+        it "renders a JSON response with errors for the object" do
           obj = create(factory)
-          params = { id: obj.to_param, payload: invalid_attributes }
+          params = {id: obj.to_param, payload: invalid_attributes}
           put(
             send("#{controller.singularize}_url", obj),
             headers:,
@@ -119,11 +119,11 @@ RSpec.shared_examples 'request_shared_spec' do |controller, field_count, exclude
           )
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.content_type).to eq('application/json; charset=utf-8')
+          expect(response.content_type).to eq("application/json; charset=utf-8")
 
           result = JSON(response.body)
-          expect(result['success']).to be_falsey
-          expect(result['error']).not_to be_blank
+          expect(result["success"]).to be_falsey
+          expect(result["error"]).not_to be_blank
         end
       end
     end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Units', type: :request do
-  include_examples('request_shared_spec', 'units', 4)
+RSpec.describe "Units", type: :request do
+  include_examples("request_shared_spec", "units", 4)
 
   let(:valid_attributes) do
     {

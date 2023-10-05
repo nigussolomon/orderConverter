@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Suppliers', type: :request do
-  include_examples('request_shared_spec', 'suppliers', 5)
+RSpec.describe "Suppliers", type: :request do
+  include_examples("request_shared_spec", "suppliers", 5)
 
   let(:valid_attributes) do
     {
       code: Faker::Code.npi,
       name: Faker::Lorem.word,
       address: Faker::Address.full_address,
-      locale: 'en',
+      locale: "en",
       user_id: create(:user).id
     }
   end
@@ -20,7 +20,7 @@ RSpec.describe 'Suppliers', type: :request do
       code: nil,
       name: Faker::Lorem.word,
       address: Faker::Address.full_address,
-      locale: 'en',
+      locale: "en",
       user_id: nil
     }
   end

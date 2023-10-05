@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Currencies', type: :request do
-  include_examples('request_shared_spec', 'currencies', 3)
+RSpec.describe "Currencies", type: :request do
+  include_examples("request_shared_spec", "currencies", 3)
 
   let(:valid_attributes) do
     {

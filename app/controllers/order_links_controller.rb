@@ -5,7 +5,7 @@ class OrderLinksController < ApplicationController
 
   def filter
     ols = Comee::Core::OrderLink.where(client_id: params[:id])
-    render json: { succes: true, data: serialize(ols) }, status: :ok
+    render json: {succes: true, data: serialize(ols)}, status: :ok
   end
 
   private

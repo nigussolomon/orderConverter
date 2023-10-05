@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'SourceMappings', type: :request do
-  include_examples('request_shared_spec', 'source_mappings', 4)
+RSpec.describe "SourceMappings", type: :request do
+  include_examples("request_shared_spec", "source_mappings", 4)
 
   let(:valid_attributes) do
     {

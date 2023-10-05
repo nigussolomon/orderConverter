@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'ProductTypes', type: :request do
-  include_examples('request_shared_spec', 'product_types', 5)
+RSpec.describe "ProductTypes", type: :request do
+  include_examples("request_shared_spec", "product_types", 5)
 
   let(:valid_attributes) do
     {

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'OrderSources', type: :request do
-  include_examples('request_shared_spec', 'order_sources', 3)
+RSpec.describe "OrderSources", type: :request do
+  include_examples("request_shared_spec", "order_sources", 3)
 
   let(:valid_attributes) do
     {
