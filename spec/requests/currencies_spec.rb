@@ -1,25 +1,27 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "Currencies", type: :request do
-  include_examples("request_shared_spec", "currencies", 3)
+require 'rails_helper'
 
-  let(:valid_attributes) {
+RSpec.describe 'Currencies', type: :request do
+  include_examples('request_shared_spec', 'currencies', 3)
+
+  let(:valid_attributes) do
     {
       code: Faker::Code.npi,
-      name: Faker::Name.name,
+      name: Faker::Name.name
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       code: nil,
-      name: Faker::Name.name,
+      name: Faker::Name.name
     }
-  }
+  end
 
-  let(:new_attributes) {
+  let(:new_attributes) do
     {
-      name: Faker::Name.name,
+      name: Faker::Name.name
     }
-  }
+  end
 end

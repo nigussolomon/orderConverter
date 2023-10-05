@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class CurrenciesController < ApplicationController
-    include Common
+  include Common
 
-    private 
+  private
 
-    def model_paramas
-        params.require(:payload).permit(:code, :name)
-    end
+  def model_paramas
+    params.require(:payload).permit(:code, :name)
+  end
 end

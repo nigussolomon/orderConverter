@@ -1,25 +1,27 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "OrderSources", type: :request do
-  include_examples("request_shared_spec", "order_sources", 3)
+require 'rails_helper'
 
-  let(:valid_attributes) {
+RSpec.describe 'OrderSources', type: :request do
+  include_examples('request_shared_spec', 'order_sources', 3)
+
+  let(:valid_attributes) do
     {
       name: Faker::Name.name,
-      client_id: create(:client).id,
+      client_id: create(:client).id
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       name: Faker::Name.name,
-      client_id: nil,
+      client_id: nil
     }
-  }
+  end
 
-  let(:new_attributes) {
+  let(:new_attributes) do
     {
-      name: Faker::Name.name,
+      name: Faker::Name.name
     }
-  }
+  end
 end

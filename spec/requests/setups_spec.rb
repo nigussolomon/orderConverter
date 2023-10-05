@@ -1,6 +1,8 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "Setups", type: :request do
-  describe "GET /index" do
+require 'rails_helper'
+
+RSpec.describe 'Setups', type: :request do
+  describe 'GET /index' do
   end
 end

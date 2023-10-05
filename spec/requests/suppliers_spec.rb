@@ -1,31 +1,33 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "Suppliers", type: :request do
-  include_examples("request_shared_spec", "suppliers", 5)
+require 'rails_helper'
 
-  let(:valid_attributes) {
+RSpec.describe 'Suppliers', type: :request do
+  include_examples('request_shared_spec', 'suppliers', 5)
+
+  let(:valid_attributes) do
     {
       code: Faker::Code.npi,
       name: Faker::Lorem.word,
       address: Faker::Address.full_address,
-      locale: "en",
-      user_id: create(:user).id,
+      locale: 'en',
+      user_id: create(:user).id
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       code: nil,
       name: Faker::Lorem.word,
       address: Faker::Address.full_address,
-      locale: "en",
-      user_id: nil,
+      locale: 'en',
+      user_id: nil
     }
-  }
+  end
 
-  let(:new_attributes) {
+  let(:new_attributes) do
     {
-      name: Faker::Lorem.word,
+      name: Faker::Lorem.word
     }
-  }
+  end
 end

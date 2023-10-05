@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrderLinksController < ApplicationController
   include Common
 

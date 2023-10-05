@@ -6,4 +6,4 @@ services:
     environment:
       POSTGRES_PASSWORD: gucci
     ports:
-      - 5432:5432
+      - 5431:5432

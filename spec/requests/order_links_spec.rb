@@ -1,29 +1,31 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "OrderLinks", type: :request do
-  include_examples("request_shared_spec", "order_links", 3)
+require 'rails_helper'
 
-  let(:valid_attributes) {
+RSpec.describe 'OrderLinks', type: :request do
+  include_examples('request_shared_spec', 'order_links', 3)
+
+  let(:valid_attributes) do
     {
       link: Faker::Internet.url,
-      client_id: create(:client).id,
+      client_id: create(:client).id
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       link: nil,
-      client_id: nil,
+      client_id: nil
     }
-  }
+  end
 
-  let(:new_attributes) {
+  let(:new_attributes) do
     {
-      link: Faker::Internet.url,
+      link: Faker::Internet.url
     }
-  }
+  end
 
-  it "filters order links given a client id" do
+  it 'filters order links given a client id' do
     cl_az = create(:client)
     cl_ap = create(:client)
     create(:order_link, client_id: cl_az.id)
@@ -32,6 +34,6 @@ RSpec.describe "OrderLinks", type: :request do
 
     get "/order_links/filter/#{cl_az.id}"
     expect(response).to be_successful
-    expect(JSON.parse(response.body)["data"].count).to eq(2)
+    expect(JSON.parse(response.body)['data'].count).to eq(2)
   end
 end

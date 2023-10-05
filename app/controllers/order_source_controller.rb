@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 class OrderSourceController < ApplicationController
+  include Common
 
-    include Common
+  private
 
-    private
-
-    def model_params
-        params.require(:payload).permit(:name, :client_id)
-    end
-
+  def model_params
+    params.require(:payload).permit(:name, :client_id)
+  end
 end

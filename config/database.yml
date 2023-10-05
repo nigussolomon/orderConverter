@@ -4,12 +4,13 @@ default: &default
   host: localhost
   port: 5432
   username: postgres
-  password: pgpassword
+  password: password
+  database: comee_price_development
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: comee_dev
+  database: comee_price_development
 
 test:
   <<: *default
