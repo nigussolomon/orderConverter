@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: 0.0.0.0
+  host: 10.1.40.95
   port: 5432
   username: postgres
   password: gucci
