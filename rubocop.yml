@@ -1,0 +1,7 @@
+# .rubocop.yml
+
+# Other configuration options ...
+
+# Exclude the Metrics/BlockLength cop
+Metrics/BlockLength:
+  Enabled: false
