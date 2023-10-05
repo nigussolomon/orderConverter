@@ -10,7 +10,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "rack-cors"
 gem "ransack"
-gem 'comee_core', '0.1.9', path: 'vendor/comee_core-0.1.9.gem'
+gem 'comee_core', '~> 0.1.9'
 gem "httparty"
 gem "active_model_serializers"
 gem "savon"
